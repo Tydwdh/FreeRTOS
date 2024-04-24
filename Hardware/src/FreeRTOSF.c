@@ -10,7 +10,7 @@ QueueHandle_t hkeyqueue;
 void FreeRTOS_Init(void)
 {
 
-    hkeyqueue = xQueueCreate(3, sizeof(Key_Flag)); // 按键队列
+    hkeyqueue = xQueueCreate(1, sizeof(Key_QueueMsg)); // 按键队列
     xTaskCreate(
         vtask_start,
         "task_start",
@@ -43,14 +43,14 @@ void vtask_start(void *pvParameters)
         "task3",
         TASK_STACK_SIZE,
         NULL,
-        1,
+        10,
         &htask3);
     xTaskCreate(
         vkeytask,
         "vkeytask",
         TASK_STACK_SIZE,
         NULL,
-        1,
+        10,
         &hkeytask);
     vTaskDelete(NULL);
     taskEXIT_CRITICAL();
@@ -59,18 +59,18 @@ void vtask_start(void *pvParameters)
 void vtask1(void *pvParameters)
 {
     int i = 0;
-    Key_Flag flag;
+    Key_QueueMsg keyq;
     while (1)
     {
-        xQueuePeek(hkeyqueue, &flag, portMAX_DELAY);
-        if (flag == Key_Flag_Single_Press)
+        xQueuePeek(hkeyqueue, &keyq, portMAX_DELAY);
+        if (keyq.key_flag == Key_Flag_Single_Press && !strcmp(keyq.key_name, "KEY1"))
         {
-            xQueueReceive(hkeyqueue, &flag, 0);
+            xQueueReceive(hkeyqueue, &keyq, 0);
             taskENTER_CRITICAL();
             OLED_SetCursor(1, 1);
             printf("%d", i++);
             taskEXIT_CRITICAL();
-            flag = Key_Flag_None;
+            keyq.key_flag = Key_Flag_None;
         }
     }
 }
@@ -78,13 +78,19 @@ void vtask1(void *pvParameters)
 void vtask2(void *pvParameters)
 {
     int i = 0;
+    Key_QueueMsg keyq;
     while (1)
     {
-        taskENTER_CRITICAL();
-        OLED_SetCursor(2, 1);
-        printf("%d", i++);
-        taskEXIT_CRITICAL();
-        vTaskDelay(1000);
+        xQueuePeek(hkeyqueue, &keyq, portMAX_DELAY);
+        if (keyq.key_flag == Key_Flag_Single_Press && !strcmp(keyq.key_name, "KEY2"))
+        {
+            xQueueReceive(hkeyqueue, &keyq, 0);
+            taskENTER_CRITICAL();
+            OLED_SetCursor(2, 1);
+            printf("%d", i++);
+            taskEXIT_CRITICAL();
+            keyq.key_flag = Key_Flag_None;
+        }
     }
 }
 void vtask3(void *pvParameters)
@@ -98,7 +104,7 @@ void vtask3(void *pvParameters)
 
 void vkeytask(void *pvParameters)
 {
-    Key_Flag flag;
+    Key_QueueMsg keyq;
     while (1)
     {
         Key_Scan();
@@ -106,21 +112,20 @@ void vkeytask(void *pvParameters)
         {
             if (key[i].key_flag != Key_Flag_None)
             {
+                memcpy(&keyq.key_name, &key[i].key_name, sizeof(keyq.key_name));
                 if ((key[i].key_flag & Key_Flag_Single_Press) == Key_Flag_Single_Press)
                 {
-                    flag = Key_Flag_Single_Press;
-                    xQueueSend(hkeyqueue, &flag, 1000);
+                    keyq.key_flag = Key_Flag_Single_Press;
                 }
-                if ((key[i].key_flag & Key_Flag_Long_Press) == Key_Flag_Long_Press)
+                else if ((key[i].key_flag & Key_Flag_Long_Press) == Key_Flag_Long_Press)
                 {
-                    flag = Key_Flag_Long_Press;
-                    xQueueSend(hkeyqueue, &flag, 1000);
+                    keyq.key_flag = Key_Flag_Long_Press;
                 }
-                if ((key[i].key_flag & Key_Flag_Double_Press) == Key_Flag_Double_Press)
+                else if ((key[i].key_flag & Key_Flag_Double_Press) == Key_Flag_Double_Press)
                 {
-                    flag = Key_Flag_Double_Press;
-                    xQueueSend(hkeyqueue, &flag, 1000);
+                    keyq.key_flag = Key_Flag_Double_Press;
                 }
+                xQueueOverwrite(hkeyqueue, &keyq);
             }
             key[i].key_flag = Key_Flag_None;
         }

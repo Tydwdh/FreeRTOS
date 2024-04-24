@@ -6,10 +6,17 @@ void Key_Init(void)
 {
 
     __HAL_RCC_GPIOB_CLK_ENABLE();
+    __HAL_RCC_GPIOA_CLK_ENABLE();
 
+    sprintf(key[0].key_name, "KEY1");
     key[0].GPIOx = GPIOB;
     key[0].GPIO_Pin = GPIO_PIN_1;
     key[0].key_validvalue = GPIO_PIN_RESET;
+
+    sprintf(key[1].key_name, "KEY2");
+    key[1].GPIOx = GPIOA;
+    key[1].GPIO_Pin = GPIO_PIN_6;
+    key[1].key_validvalue = GPIO_PIN_RESET;
 
     for (int i = 0; i < KEY_NUM; i++)
     {
