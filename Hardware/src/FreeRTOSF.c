@@ -107,7 +107,7 @@ void vtask3(void *pvParameters)
     TickType_t pxPreviousWakeTime = xTaskGetTickCount();
     while (1)
     {
-        xSemaphoreTakeFromISR(holedsem, portMAX_DELAY);
+        xSemaphoreTake(holedsem, portMAX_DELAY);
         OLED_Buf_Show();
         xTaskDelayUntil(&pxPreviousWakeTime,50);
     }
