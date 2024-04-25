@@ -1,3 +1,3 @@
-Load "d:\\STM32HALProject\\FreeRTOS6消息队列\\build\\Keil\\a.axf" 
+Load "d:\\STM32HALProject\\FreeRTOS7信号量\\build\\Keil\\a.axf" 
 Erase Done.Programming Done.Verify OK.Application running ...
-Flash Load finished at 23:59:52
+Flash Load finished at 16:04:57

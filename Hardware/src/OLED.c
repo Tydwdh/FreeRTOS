@@ -1,17 +1,8 @@
-#include "stm32f1xx_hal.h"
 #include "OLED.h"
-#include "IIC.h"
 #include "OLED_Font.h"
-#include "string.h"
-#include "stdbool.h"
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdio.h>
-#include "USART.h"
-uint8_t OLED_ShowBuffer[OLED_PAGE_NUM][OLED_WIDTH]     = {0};   // 显示缓存区
-uint8_t OLED_ShowBuffer_bak[OLED_PAGE_NUM][OLED_WIDTH] = {0};   // 备份缓存区
-bool OLED_SHOW_FLAG                                    = false; // 显示标志位
-uint8_t oled_x = 1, oled_y = 1; // 当前光标位置
+uint8_t OLED_ShowBuffer[OLED_PAGE_NUM][OLED_WIDTH] = {0};     // 显示缓存区
+uint8_t OLED_ShowBuffer_bak[OLED_PAGE_NUM][OLED_WIDTH] = {0}; // 备份缓存区
+uint8_t oled_x = 1, oled_y = 1;                               // 当前光标位置
 /**
  * @brief 初始化OLED
  * @param  void
@@ -90,7 +81,8 @@ void OLED_Clear(void)
 void OLED_ShowString(uint8_t x, uint8_t y, char *p)
 {
     uint8_t len1 = strlen(p);
-    for (uint8_t i = 0; i < len1; i++) {
+    for (uint8_t i = 0; i < len1; i++)
+    {
         OLED_ShowChar(y, x + i, p[i]);
     }
 }
@@ -105,14 +97,19 @@ void OLED_ShowString(uint8_t x, uint8_t y, char *p)
 void OLED_ShowChar(uint8_t Line, uint8_t Column, char Char)
 {
     uint8_t i;
-    if (Column <= OLED_COLUMN_NUM) {
-        for (i = 0; i < 8; i++) {
-            OLED_ShowBuffer_bak[(Line - 1) * 2][(Column - 1) * 8 + i]     = OLED_F8x16[Char - ' '][i];
+    if (Column <= OLED_COLUMN_NUM)
+    {
+        for (i = 0; i < 8; i++)
+        {
+            OLED_ShowBuffer_bak[(Line - 1) * 2][(Column - 1) * 8 + i] = OLED_F8x16[Char - ' '][i];
             OLED_ShowBuffer_bak[(Line - 1) * 2 + 1][(Column - 1) * 8 + i] = OLED_F8x16[Char - ' '][i + 8];
         }
-    } else {
-        for (i = 0; i < 8; i++) {
-            OLED_ShowBuffer_bak[(Line) * 2][(Column - 1 - OLED_COLUMN_NUM) * 8 + i]     = OLED_F8x16[Char - ' '][i];
+    }
+    else
+    {
+        for (i = 0; i < 8; i++)
+        {
+            OLED_ShowBuffer_bak[(Line) * 2][(Column - 1 - OLED_COLUMN_NUM) * 8 + i] = OLED_F8x16[Char - ' '][i];
             OLED_ShowBuffer_bak[(Line) * 2 + 1][(Column - 1 - OLED_COLUMN_NUM) * 8 + i] = OLED_F8x16[Char - ' '][i + 8];
         }
     }
@@ -129,20 +126,26 @@ void OLED_ShowChar(uint8_t Line, uint8_t Column, char Char)
 void OLED_ReverseArea(uint8_t X, uint8_t Y, uint8_t Width, uint8_t Height)
 {
     uint8_t i, j;
-    if (X > 127) {
+    if (X > 127)
+    {
         return;
     }
-    if (Y > 63) {
+    if (Y > 63)
+    {
         return;
     }
-    if (X + Width > OLED_WIDTH) {
+    if (X + Width > OLED_WIDTH)
+    {
         Width = OLED_WIDTH - X;
     }
-    if (Y + Height > OLED_HEIGHT) {
+    if (Y + Height > OLED_HEIGHT)
+    {
         Height = OLED_HEIGHT - Y;
     }
-    for (j = Y; j < Y + Height; j++) {
-        for (i = X; i < X + Width; i++) {
+    for (j = Y; j < Y + Height; j++)
+    {
+        for (i = X; i < X + Width; i++)
+        {
             OLED_ShowBuffer_bak[j / 8][i] ^= 0x01 << (j % 8);
         }
     }
@@ -168,12 +171,9 @@ void OLED_TransPosition(uint8_t Y, uint8_t X)
  */
 void OLED_Buf_Show(void)
 {
-    if (OLED_SHOW_FLAG == false) {
-        memcpy(OLED_ShowBuffer, OLED_ShowBuffer_bak, sizeof(OLED_ShowBuffer));
-        OLED_SHOW_FLAG = true;
-        OLED_TransPosition(0, 0);
-        OLED_Data(OLED_ShowBuffer[0], OLED_WIDTH); // 一次发送整个缓冲区
-    }
+    memcpy(OLED_ShowBuffer, OLED_ShowBuffer_bak, sizeof(OLED_ShowBuffer));
+    OLED_TransPosition(0, 0);
+    OLED_Data(OLED_ShowBuffer[0], OLED_WIDTH); // 一次发送整个缓冲区
 }
 
 /**
@@ -209,26 +209,32 @@ void OLED_Printf(uint8_t x, uint8_t y, const char *fmt, ...)
 
 int fputc(int ch, FILE *f)
 {
-    
 
-    if (ch == '\n') {
+    if (ch == '\n')
+    {
         oled_y = oled_y % 4 + 1;
         oled_x = 1;
-    } else if (ch == '\t') {
+    }
+    else if (ch == '\t')
+    {
         oled_x = (oled_x + 3) % 16 + 1;
-        if (oled_x > 16) {
+        if (oled_x > 16)
+        {
             oled_x = 1;
             oled_y = oled_y % 4 + 1;
         }
-    } else {
-        if (oled_x > 16) {
+    }
+    else
+    {
+        if (oled_x > 16)
+        {
             oled_x = 1;
             oled_y = oled_y % 4 + 1;
         }
         OLED_ShowChar(oled_y, oled_x++, ch);
     }
 
-    //HAL_UART_Transmit(&uart1.uart, (uint8_t *)&ch, 1, 1000);
+    // HAL_UART_Transmit(&uart1.uart, (uint8_t *)&ch, 1, 1000);
 
     return ch;
 }
@@ -240,8 +246,8 @@ int fputc(int ch, FILE *f)
  */
 void OLED_SetCursor(uint8_t Y, uint8_t X)
 {
-    oled_x=X;
-    oled_y=Y;
+    oled_x = X;
+    oled_y = Y;
 }
 
 /**
@@ -252,13 +258,16 @@ void OLED_SetCursor(uint8_t Y, uint8_t X)
 void HAL_I2C_MemTxCpltCallback(I2C_HandleTypeDef *hi2c)
 {
     static uint8_t i = 1;
-    if (hi2c->Instance == I2C1 && OLED_SHOW_FLAG == true) {
+    BaseType_t xHigherPriorityTaskWoken = pdFALSE;
+    if (hi2c->Instance == I2C1)
+    {
         OLED_TransPosition(i, 0);
         OLED_Data(OLED_ShowBuffer[i], OLED_WIDTH);
         i++;
-        if (i == OLED_PAGE_NUM) {
-            OLED_SHOW_FLAG = false;
-            i              = 0;
+        if (i == OLED_PAGE_NUM)
+        {
+            i = 0;
+            xSemaphoreGiveFromISR(holedsem, &xHigherPriorityTaskWoken);
         }
     }
 }

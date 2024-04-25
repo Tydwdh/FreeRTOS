@@ -3,7 +3,7 @@
 
 
 #include "main.h"
-
+extern QueueHandle_t holedsem;
 
 void FreeRTOS_Init(void);
 

@@ -4,11 +4,13 @@
   User/Inc\FreeRTOSConfig.h FreeRTOS/inc/projdefs.h \
   FreeRTOS/inc/portable.h FreeRTOS/inc/deprecated_definitions.h \
   FreeRTOS/port\portmacro.h FreeRTOS/inc/mpu_wrappers.h \
-  FreeRTOS/inc\task.h FreeRTOS/inc/list.h Library/inc\stm32f1xx_hal.h \
-  User/Inc\stm32f1xx_hal_conf.h Library/inc\stm32f1xx_hal_rcc.h \
-  Library/inc/stm32f1xx_hal_def.h CMSIS/inc\stm32f1xx.h \
-  CMSIS/inc/stm32f103xb.h CMSIS/inc/core_cm3.h CMSIS/inc/cmsis_version.h \
-  CMSIS/inc/cmsis_compiler.h CMSIS/inc/cmsis_armclang.h \
+  FreeRTOS/inc\task.h FreeRTOS/inc/list.h FreeRTOS/inc\queue.h \
+  FreeRTOS/inc\semphr.h D:\keil5\ARM\ARMCLANG\Bin\..\include\stdarg.h \
+  Library/inc\stm32f1xx_hal.h User/Inc\stm32f1xx_hal_conf.h \
+  Library/inc\stm32f1xx_hal_rcc.h Library/inc/stm32f1xx_hal_def.h \
+  CMSIS/inc\stm32f1xx.h CMSIS/inc/stm32f103xb.h CMSIS/inc/core_cm3.h \
+  CMSIS/inc/cmsis_version.h CMSIS/inc/cmsis_compiler.h \
+  CMSIS/inc/cmsis_armclang.h \
   D:\keil5\ARM\ARMCLANG\Bin\..\include\arm_compat.h \
   CMSIS/inc/system_stm32f1xx.h Library/inc/Legacy/stm32_hal_legacy.h \
   Library/inc/stm32f1xx_hal_rcc_ex.h Library/inc\stm32f1xx_hal_gpio.h \
@@ -31,10 +33,10 @@
   Library/inc\stm32f1xx_hal_wwdg.h Library/inc\stm32f1xx_hal_pcd.h \
   Library/inc/stm32f1xx_ll_usb.h Library/inc/stm32f1xx_hal_pcd_ex.h \
   Library/inc\stm32f1xx_hal_hcd.h Library/inc\stm32f1xx_hal_mmc.h \
-  Hardware/inc\RCC.h Hardware/inc\timer.h Hardware/inc\led.h \
-  Hardware/inc\USART.h D:\keil5\ARM\ARMCLANG\Bin\..\include\string.h \
-  Hardware/inc\IIC.h Hardware/inc\OLED.h \
   D:\keil5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  D:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h Hardware/inc\SPI.h \
-  Hardware/inc\W25Q64.h D:\keil5\ARM\ARMCLANG\Bin\..\include\time.h \
-  Hardware/inc\FreeRTOSF.h FreeRTOS/inc\queue.h Hardware/inc\key.h
+  D:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h Hardware/inc\RCC.h \
+  Hardware/inc\timer.h Hardware/inc\led.h Hardware/inc\USART.h \
+  D:\keil5\ARM\ARMCLANG\Bin\..\include\string.h Hardware/inc\IIC.h \
+  Hardware/inc\OLED.h Hardware/inc\SPI.h Hardware/inc\W25Q64.h \
+  D:\keil5\ARM\ARMCLANG\Bin\..\include\time.h Hardware/inc\FreeRTOSF.h \
+  Hardware/inc\key.h

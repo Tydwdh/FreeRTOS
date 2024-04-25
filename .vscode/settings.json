@@ -1,6 +1,14 @@
 {
     "files.associations": {
         "main.h": "c",
-        "stm32f1xx_hal.h": "c"
+        "stm32f1xx_hal.h": "c",
+        "oled_font.h": "c",
+        "stdbool.h": "c",
+        "key.h": "c",
+        "oled.h": "c",
+        "freertosf.h": "c",
+        "time.h": "c",
+        "led.h": "c",
+        "freertos.h": "c"
     }
 }

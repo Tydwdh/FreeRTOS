@@ -29,7 +29,7 @@ void HAL_I2C_MspInit(I2C_HandleTypeDef *hi2c)
         HAL_GPIO_Init(GPIOB,&GPIO_Init);
 
         __HAL_AFIO_REMAP_I2C1_ENABLE();
-        HAL_NVIC_SetPriority(I2C1_EV_IRQn,3,0);
+        HAL_NVIC_SetPriority(I2C1_EV_IRQn,7,0);
         HAL_NVIC_EnableIRQ(I2C1_EV_IRQn);
 
         hdma1.Instance=DMA1_Channel6;

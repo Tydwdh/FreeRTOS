@@ -1,9 +1,7 @@
 #ifndef __OLED_H
 #define __OLED_H
 
-#include "stm32f1xx_hal.h"
-#include "stdbool.h"
-#include "stdio.h"
+#include "main.h"
 #define OLED_WIDTH 128
 #define OLED_HEIGHT 64
 #define OLED_PAGE_NUM 8

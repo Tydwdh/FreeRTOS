@@ -29,5 +29,15 @@
   Library/inc/stm32f1xx_ll_usb.h Library/inc/stm32f1xx_hal_pcd_ex.h \
   Library/inc\stm32f1xx_hal_hcd.h Library/inc\stm32f1xx_hal_mmc.h \
   Hardware/inc\W25Q64.h Hardware/inc\SPI.h Hardware/inc\OLED.h \
+  User/Inc\main.h FreeRTOS/inc\FreeRTOS.h User/Inc\FreeRTOSConfig.h \
+  FreeRTOS/inc/projdefs.h FreeRTOS/inc/portable.h \
+  FreeRTOS/inc/deprecated_definitions.h FreeRTOS/port\portmacro.h \
+  FreeRTOS/inc/mpu_wrappers.h FreeRTOS/inc\task.h FreeRTOS/inc/list.h \
+  FreeRTOS/inc\queue.h FreeRTOS/inc\semphr.h \
+  D:\keil5\ARM\ARMCLANG\Bin\..\include\stdarg.h \
   D:\keil5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
-  D:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h
+  D:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h Hardware/inc\RCC.h \
+  Hardware/inc\timer.h Hardware/inc\led.h Hardware/inc\USART.h \
+  D:\keil5\ARM\ARMCLANG\Bin\..\include\string.h Hardware/inc\IIC.h \
+  Hardware/inc\adc.h D:\keil5\ARM\ARMCLANG\Bin\..\include\time.h \
+  Hardware/inc\FreeRTOSF.h Hardware/inc\key.h
