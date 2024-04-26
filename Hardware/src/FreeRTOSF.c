@@ -119,18 +119,7 @@ void vkeytask(void *pvParameters)
             if (key[i].key_flag != Key_Flag_None)
             {
                 memcpy(&keyq.key_name, &key[i].key_name, sizeof(keyq.key_name));
-                if ((key[i].key_flag & Key_Flag_Single_Press) == Key_Flag_Single_Press)
-                {
-                    keyq.key_flag = Key_Flag_Single_Press;
-                }
-                else if ((key[i].key_flag & Key_Flag_Long_Press) == Key_Flag_Long_Press)
-                {
-                    keyq.key_flag = Key_Flag_Long_Press;
-                }
-                else if ((key[i].key_flag & Key_Flag_Double_Press) == Key_Flag_Double_Press)
-                {
-                    keyq.key_flag = Key_Flag_Double_Press;
-                }
+                keyq.key_flag = key[i].key_flag;
                 xQueueOverwrite(hkeyqueue, &keyq);
             }
             key[i].key_flag = Key_Flag_None;

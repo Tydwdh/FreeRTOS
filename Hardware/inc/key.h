@@ -15,10 +15,10 @@ typedef enum
 
 typedef enum
 {
-    Key_Flag_None = 0x0001,
-    Key_Flag_Single_Press = 0x0002,
-    Key_Flag_Double_Press = 0x0004,
-    Key_Flag_Long_Press = 0x0008
+    Key_Flag_None,
+    Key_Flag_Single_Press,
+    Key_Flag_Double_Press,
+    Key_Flag_Long_Press
 } Key_Flag;
 
 typedef struct
@@ -29,7 +29,7 @@ typedef struct
 
 typedef struct
 {
-    char  key_name[10];
+    char key_name[10];
 
     GPIO_TypeDef *GPIOx;
     uint16_t GPIO_Pin;
