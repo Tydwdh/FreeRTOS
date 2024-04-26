@@ -37,7 +37,6 @@ void OLED_Init(void)
     OLED_Cmd(0x14);
     OLED_Cmd(DISPLAY_ON);
     OLED_Clear();
-    OLED_Buf_Show();
 }
 
 /**

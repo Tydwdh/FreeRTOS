@@ -13,7 +13,7 @@ void FreeRTOS_Init(void)
 {
 
     hkeyqueue = xQueueCreate(1, sizeof(Key_QueueMsg)); // 按键队列
-    holedsem = xSemaphoreCreateBinary();
+    vSemaphoreCreateBinary(holedsem);
     hkeysem = xSemaphoreCreateBinary();
     xTaskCreate(
         vtask_start,
@@ -66,21 +66,16 @@ void vtask1(void *pvParameters)
     Key_QueueMsg keyq;
     while (1)
     {
-        // xQueuePeek(hkeyqueue, &keyq, portMAX_DELAY);
+        xQueuePeek(hkeyqueue, &keyq, portMAX_DELAY);
         if (keyq.key_flag == Key_Flag_Single_Press && !strcmp(keyq.key_name, "KEY1"))
         {
-            // xQueueReceive(hkeyqueue, &keyq, 0);
+            xQueueReceive(hkeyqueue, &keyq, 0);
             taskENTER_CRITICAL();
             OLED_SetCursor(1, 1);
             printf("%d", i++);
             taskEXIT_CRITICAL();
             keyq.key_flag = Key_Flag_None;
         }
-        xSemaphoreTake(hkeysem, portMAX_DELAY);
-        taskENTER_CRITICAL();
-        OLED_SetCursor(1, 1);
-        printf("%d", i++);
-        taskEXIT_CRITICAL();
     }
 }
 
@@ -109,7 +104,7 @@ void vtask3(void *pvParameters)
     {
         xSemaphoreTake(holedsem, portMAX_DELAY);
         OLED_Buf_Show();
-        xTaskDelayUntil(&pxPreviousWakeTime,50);
+        xTaskDelayUntil(&pxPreviousWakeTime, 50);
     }
 }
 
@@ -137,7 +132,6 @@ void vkeytask(void *pvParameters)
                     keyq.key_flag = Key_Flag_Double_Press;
                 }
                 xQueueOverwrite(hkeyqueue, &keyq);
-                xSemaphoreGive(hkeysem);
             }
             key[i].key_flag = Key_Flag_None;
         }
