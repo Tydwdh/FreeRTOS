@@ -35,6 +35,7 @@
   FreeRTOS/inc/mpu_wrappers.h FreeRTOS/inc\task.h FreeRTOS/inc/list.h \
   FreeRTOS/inc\queue.h FreeRTOS/inc\semphr.h \
   D:\keil5\ARM\ARMCLANG\Bin\..\include\stdarg.h \
+  FreeRTOS/inc\event_groups.h FreeRTOS/inc/timers.h \
   D:\keil5\ARM\ARMCLANG\Bin\..\include\stdbool.h \
   D:\keil5\ARM\ARMCLANG\Bin\..\include\stdio.h Hardware/inc\RCC.h \
   Hardware/inc\timer.h Hardware/inc\led.h Hardware/inc\USART.h \

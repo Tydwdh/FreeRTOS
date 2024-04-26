@@ -6,6 +6,7 @@
   FreeRTOS/port\portmacro.h FreeRTOS/inc/mpu_wrappers.h \
   FreeRTOS/inc\task.h FreeRTOS/inc/list.h FreeRTOS/inc\queue.h \
   FreeRTOS/inc\semphr.h D:\keil5\ARM\ARMCLANG\Bin\..\include\stdarg.h \
+  FreeRTOS/inc\event_groups.h FreeRTOS/inc/timers.h \
   Library/inc\stm32f1xx_hal.h User/Inc\stm32f1xx_hal_conf.h \
   Library/inc\stm32f1xx_hal_rcc.h Library/inc/stm32f1xx_hal_def.h \
   CMSIS/inc\stm32f1xx.h CMSIS/inc/stm32f103xb.h CMSIS/inc/core_cm3.h \

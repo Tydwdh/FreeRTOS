@@ -6,6 +6,7 @@
 #include "queue.h"
 #include "semphr.h"
 #include "stdarg.h"
+#include "event_groups.h"
 #include "stm32f1xx_hal.h"
 #include "stdbool.h"
 #include "stdio.h"

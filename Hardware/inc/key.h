@@ -15,7 +15,7 @@ typedef enum
 
 typedef enum
 {
-    Key_Flag_None,
+    Key_Flag_None ,
     Key_Flag_Single_Press,
     Key_Flag_Double_Press,
     Key_Flag_Long_Press

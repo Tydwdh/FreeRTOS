@@ -6,14 +6,15 @@ TaskHandle_t htask1;
 TaskHandle_t htask2;
 TaskHandle_t htask3;
 TaskHandle_t hkeytask;
+EventGroupHandle_t hkeyevent;
 QueueHandle_t hkeyqueue;
 QueueHandle_t hkeysem;
 QueueHandle_t holedsem;
 void FreeRTOS_Init(void)
 {
-
     hkeyqueue = xQueueCreate(1, sizeof(Key_QueueMsg)); // 按键队列
     vSemaphoreCreateBinary(holedsem);
+    hkeyevent = xEventGroupCreate();
     hkeysem = xSemaphoreCreateBinary();
     xTaskCreate(
         vtask_start,
@@ -66,35 +67,24 @@ void vtask1(void *pvParameters)
     Key_QueueMsg keyq;
     while (1)
     {
-        xQueuePeek(hkeyqueue, &keyq, portMAX_DELAY);
-        if (keyq.key_flag == Key_Flag_Single_Press && !strcmp(keyq.key_name, "KEY1"))
-        {
-            xQueueReceive(hkeyqueue, &keyq, 0);
-            taskENTER_CRITICAL();
-            OLED_SetCursor(1, 1);
-            printf("%d", i++);
-            taskEXIT_CRITICAL();
-            keyq.key_flag = Key_Flag_None;
-        }
+        xEventGroupWaitBits(hkeyevent, 0x01 << 0, pdTRUE, pdFALSE, portMAX_DELAY);
+        taskENTER_CRITICAL();
+        OLED_SetCursor(1, 1);
+        printf("%d", i++);
+        taskEXIT_CRITICAL();
     }
 }
 
 void vtask2(void *pvParameters)
 {
     int i = 0;
-    Key_QueueMsg keyq;
     while (1)
     {
-        xQueuePeek(hkeyqueue, &keyq, portMAX_DELAY);
-        if (keyq.key_flag == Key_Flag_Single_Press && !strcmp(keyq.key_name, "KEY2"))
-        {
-            xQueueReceive(hkeyqueue, &keyq, 0);
-            taskENTER_CRITICAL();
-            OLED_SetCursor(2, 1);
-            printf("%d", i++);
-            taskEXIT_CRITICAL();
-            keyq.key_flag = Key_Flag_None;
-        }
+        xEventGroupWaitBits(hkeyevent, 0x01 << 1, pdTRUE, pdFALSE, portMAX_DELAY);
+        taskENTER_CRITICAL();
+        OLED_SetCursor(2, 1);
+        printf("%d", i++);
+        taskEXIT_CRITICAL();
     }
 }
 void vtask3(void *pvParameters)
@@ -110,7 +100,6 @@ void vtask3(void *pvParameters)
 
 void vkeytask(void *pvParameters)
 {
-    Key_QueueMsg keyq;
     while (1)
     {
         Key_Scan();
@@ -118,11 +107,10 @@ void vkeytask(void *pvParameters)
         {
             if (key[i].key_flag != Key_Flag_None)
             {
-                memcpy(&keyq.key_name, &key[i].key_name, sizeof(keyq.key_name));
-                keyq.key_flag = key[i].key_flag;
-                xQueueOverwrite(hkeyqueue, &keyq);
+                xEventGroupSetBits(hkeyevent, 0x01 << i);
+                key[i].key_flag = Key_Flag_None;
             }
-            key[i].key_flag = Key_Flag_None;
+
         }
         vTaskDelay(KEY_SCAN_INTERVAL);
     }
